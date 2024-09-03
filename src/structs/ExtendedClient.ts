@@ -32,6 +32,7 @@ export class ExtendedClient extends Client {
     // Inicia o bot registrando seus módulos e logando através do token.
     public start() {
         this.registerModules();
+        this.registerEvents();
         this.login(process.env.BOT_TOKEN);
     }
     // Define os slash commands.
