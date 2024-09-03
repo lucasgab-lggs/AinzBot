@@ -1,5 +1,7 @@
 {
     "colors": {
-        "purple": "#8532a8"
+        "red": "#d93232",
+        "green": "#30db50",
+        "blue": "#305edb"
     }
 }
