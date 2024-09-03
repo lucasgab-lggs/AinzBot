@@ -3,9 +3,10 @@ import { Command } from "../../structs/types/Command";
 
 export default new Command({
     name: "ping",
-    description: "Responde com pong!",
+    description: "Obtém a latência da API",
     type: ApplicationCommandType.ChatInput,
     run({interaction}) {
-        interaction.reply({ephemeral: true, content: "Pong!"});
+        const apiLatency = interaction.client.ws.ping;
+        interaction.reply({ephemeral: true, content: `🏓  Pong! \n\n📡 Latência da API: ${apiLatency}ms`});
     },
 });
