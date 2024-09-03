@@ -1,13 +1,13 @@
-import { Client, Partials, IntentsBitField, BitFieldResolvable, GatewayIntentsString, Collection, ApplicationCommandDataResolvable, ClientEvents } from "discord.js";
-import dotenv from "dotenv";
-import fs from "fs";
-import path from "path";
-import { CommandType, componentsButton, componentsModal, componentsSelect } from "./types/Command";
-import { EventType } from "./types/Event";
+import { Client, Partials, IntentsBitField, BitFieldResolvable, GatewayIntentsString, Collection, ApplicationCommandDataResolvable, ClientEvents } from 'discord.js';
+import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import { CommandType, componentsButton, componentsModal, componentsSelect } from './types/Command';
+import { EventType } from './types/Event';
 dotenv.config();
 
 // Determina quais arquivos devem ser lidos nas pastas.
-const fileCondition = (fileName: string) => fileName.endsWith(".ts") || fileName.endsWith(".js");
+const fileCondition = (fileName: string) => fileName.endsWith('.ts') || fileName.endsWith('.js');
 
 // O Client serve para criar uma conexão com a API do Discord. 
 export class ExtendedClient extends Client {
@@ -39,7 +39,7 @@ export class ExtendedClient extends Client {
     private registerCommands(commands: Array<ApplicationCommandDataResolvable>) {
         this.application?.commands.set(commands)
         .then(() => {
-            console.log("✅ Slash (/) Commands defined".green);
+            console.log('✅ Slash (/) Commands defined'.green);
         })
         .catch((error) => {
             console.log(`❌ Error defining Slash (/) Commands: \n${error}`.red);
@@ -52,7 +52,7 @@ export class ExtendedClient extends Client {
         const slashCommands: Array<ApplicationCommandDataResolvable> = new Array();
 
         // Obtem a pasta de comandos.
-        const commandsPath = path.join(__dirname, "..", "commands");
+        const commandsPath = path.join(__dirname, '..', 'commands');
 
         // Lê os arquivos da pasta commands.
         fs.readdirSync(commandsPath).forEach(local => {
@@ -75,12 +75,12 @@ export class ExtendedClient extends Client {
         });
 
         // Define os slash commands quando o bot estiver pronto.
-        this.on("ready", () => this.registerCommands(slashCommands));
+        this.on('ready', () => this.registerCommands(slashCommands));
     }
     // Define os eventos do bot.
     private registerEvents() {
         // Obtem a pasta de eventos.
-        const eventsPath = path.join(__dirname, "..", "events");
+        const eventsPath = path.join(__dirname, '..', 'events');
 
         // Lê os arquivos da pasta events.
         fs.readdirSync(eventsPath).forEach(local => {

@@ -1,10 +1,10 @@
-import { CommandInteractionOptionResolver } from "discord.js";
-import { client } from "../..";
-import { Event } from "../../structs/types/Event";
+import { CommandInteractionOptionResolver } from 'discord.js';
+import { client } from '../..';
+import { Event } from '../../structs/types/Event';
 
 // Evento que responde aos comandos de barra.
 export default new Event({
-    name: "interactionCreate",
+    name: 'interactionCreate',
     run(interaction) {
         // Verifica se a interação é um comando.
         if (!interaction.isCommand()) return;
