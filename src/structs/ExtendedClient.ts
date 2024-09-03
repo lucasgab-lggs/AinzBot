@@ -1,9 +1,13 @@
-import { Client, Partials, IntentsBitField, BitFieldResolvable, GatewayIntentsString, Collection, ApplicationCommandDataResolvable } from "discord.js";
+import { Client, Partials, IntentsBitField, BitFieldResolvable, GatewayIntentsString, Collection, ApplicationCommandDataResolvable, ClientEvents } from "discord.js";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import { CommandType, componentsButton, componentsModal, componentsSelect } from "./types/Command";
+import { EventType } from "./types/Event";
 dotenv.config();
+
+// Determina quais arquivos devem ser lidos nas pastas.
+const fileCondition = (fileName: string) => fileName.endsWith(".ts") || fileName.endsWith(".js");
 
 // O Client serve para criar uma conexão com a API do Discord. 
 export class ExtendedClient extends Client {
@@ -48,8 +52,6 @@ export class ExtendedClient extends Client {
 
         // Obtem a pasta de comandos.
         const commandsPath = path.join(__dirname, "..", "commands");
-        // Determina quais arquivos devem ser lidos na pasta commands.
-        const fileCondition = (fileName: string) => fileName.endsWith(".ts") || fileName.endsWith(".js");
 
         // Lê os arquivos da pasta commands.
         fs.readdirSync(commandsPath).forEach(local => {
@@ -73,5 +75,26 @@ export class ExtendedClient extends Client {
 
         // Define os slash commands quando o bot estiver pronto.
         this.on("ready", () => this.registerCommands(slashCommands));
+    }
+    // Define os eventos do bot.
+    private registerEvents() {
+        // Obtem a pasta de eventos.
+        const eventsPath = path.join(__dirname, "..", "events");
+
+        // Lê os arquivos da pasta events.
+        fs.readdirSync(eventsPath).forEach(local => {
+            // Importa o evento.
+            fs.readdirSync(`${eventsPath}/${local}`).filter(fileCondition)
+            .forEach(async fileName => {
+                // Obtem as propriedades do evento.
+                const { name, run, once }: EventType<keyof ClientEvents> = (await import(`../events/${local}/${fileName}`))?.default;
+
+                try {
+                    if (name) (once) ? this.once(name, run) : this.on(name, run);
+                } catch (error) {
+                    console.log(`An error has ocurred on event: ${name} \n${error}`.red);
+                }
+            })            
+        });
     }
 }
