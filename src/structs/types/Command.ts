@@ -1,5 +1,4 @@
 // Define um padrão para criação de comandos
-
 import { ApplicationCommandData, ButtonInteraction, Collection, CommandInteraction, CommandInteractionOptionResolver, ModalSubmitInteraction, StringSelectMenuInteraction } from "discord.js";
 import { ExtendedClient } from "../ExtendedClient";
 
