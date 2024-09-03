@@ -1,9 +1,15 @@
-import { Client, Partials, IntentsBitField, BitFieldResolvable, GatewayIntentsString } from "discord.js";
+import { Client, Partials, IntentsBitField, BitFieldResolvable, GatewayIntentsString, Collection } from "discord.js";
 import dotenv from "dotenv";
+import { CommandType, componentsButton, componentsModal, componentsSelect } from "./types/Command";
 dotenv.config();
 
-// Cria um Client melhorado. O Client serve para criar uma conexão com a API do Discord. 
+// O Client serve para criar uma conexão com a API do Discord. 
 export class ExtendedClient extends Client {
+    // Define as coleções de comandos, botões, selects e modais.
+    public commands: Collection<string, CommandType> = new Collection();
+    public buttons: componentsButton = new Collection();
+    public selects: componentsSelect = new Collection();
+    public modals: componentsModal = new Collection();
     constructor() {
         super({
             /*
